@@ -1,7 +1,10 @@
 # Virtual Environment
 venv/
 
-Auto-created Files
+# Auto-created Files
 data/
 results/
 saved_models/
+
+# Cached Files
+__pycache__
