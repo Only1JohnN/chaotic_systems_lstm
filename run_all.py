@@ -1,65 +1,33 @@
 import os
-import numpy as np
-import tensorflow as tf
-import joblib
-from src.lorenz import generate_lorenz_data
-from src.data_preprocessing import preprocess_data
-from src.lstm_model import build_lstm
-from src.rnn_model import build_rnn
-from src.visualize import plot_results
+import sys
+import subprocess
 
-### STEP 1: GENERATE DATA ###
-print("\n📌 Generating Lorenz data...")
-os.makedirs("data", exist_ok=True)  
-
-if not os.path.exists("data/lorenz_data.csv"):
-    t, data = generate_lorenz_data()
-    np.savetxt("data/lorenz_data.csv", data, delimiter=",", header="x,y,z", comments="")
-    print("✅ Lorenz data saved to 'data/lorenz_data.csv'")
-
-### STEP 2: PREPROCESS DATA ###
-print("\n📌 Preprocessing data...")
-if not os.path.exists("data/scaler.pkl"):
-    preprocess_data()
-
-# Load processed data
-data = np.load("data/processed_data.npz")
-X_train, y_train, X_test, y_test = data["X_train"], data["y_train"], data["X_test"], data["y_test"]
-scaler = joblib.load("data/scaler.pkl")
-
-### STEP 3: TRAIN MODELS ###
-os.makedirs("saved_models", exist_ok=True)
-
-# Train LSTM
-print("\n📌 Training LSTM model...")
-lstm = build_lstm()
-lstm.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test))
-lstm.save("saved_models/lstm_model.keras")
-
-# Train RNN
-print("\n📌 Training RNN model...")
-rnn = build_rnn()
-rnn.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test))
-rnn.save("saved_models/rnn_model.keras")
-
-### STEP 4: EVALUATE & VISUALIZE ###
-print("\n📌 Evaluating models...")
+# Create directories for logs and results if they don't exist
+os.makedirs("logs", exist_ok=True)
 os.makedirs("results", exist_ok=True)
 
-# Ensure loss function is explicitly set when loading
-custom_objects = {"mse": tf.keras.losses.MeanSquaredError()}
+# Define the log file path
+log_file_path = os.path.join("logs", "run_log.txt")
 
-# Load trained models
-lstm = tf.keras.models.load_model("saved_models/lstm_model.keras", custom_objects=custom_objects)
-rnn = tf.keras.models.load_model("saved_models/rnn_model.keras", custom_objects=custom_objects)
+# List of scripts to run in sequence
+scripts = [
+    "src/lorenz.py",  # This will generate Lorenz data if it doesn't exist
+    "src/data_preprocessing.py",  # This will preprocess the data
+    "src/train.py",  # This will train both models (LSTM and RNN)
+    "src/visualize.py"  # This will visualize the results
+]
 
-# Make predictions
-lstm_pred = lstm.predict(X_test)
-rnn_pred = rnn.predict(X_test)
+with open(log_file_path, "w") as log_file:
+    for script in scripts:
+        log_file.write(f"\n📌 Running {script}...\n")
+        print(f"📌 Running {script}...")
+        # Run the script and capture both stdout and stderr into the log file
+        result = subprocess.run(["python", script], stdout=log_file, stderr=log_file)
+        if result.returncode != 0:
+            log_file.write(f"❌ Error encountered when running {script}.\n")
+            print(f"❌ Error encountered when running {script}. Check the log for details.")
+        else:
+            log_file.write(f"✅ Finished running {script}.\n")
+            print(f"✅ Finished running {script}.")
 
-# Save results
-plot_results(y_test, lstm_pred, "results/lstm_predictions.png")
-plot_results(y_test, rnn_pred, "results/rnn_predictions.png")
-
-
-print("\n✅ All steps completed successfully! Check 'results/' for outputs.")
+print(f"\n✅ All scripts executed. Check '{log_file_path}' for logs and the 'results' directory for output plots.")
