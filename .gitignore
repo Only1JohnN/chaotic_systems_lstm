@@ -2,9 +2,10 @@
 venv/
 
 # Auto-created Files
-data/
+# data/
 # results/
-saved_models/
+# saved_models/
 
 # Cached Files
-__pycache__
+__pycache__/
+*.pyc
