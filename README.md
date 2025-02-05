@@ -54,7 +54,7 @@ Currently, only the **LSTM model predictions** are visualized and saved. The fol
 
 ### LSTM Model Predictions
 
-![LSTM Predictions](results/lstm_model__predictions.png)
+![LSTM Predictions](results/lstm_model_predictions.png)
 
 ## Model Details
 
