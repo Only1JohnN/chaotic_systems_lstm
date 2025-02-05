@@ -7,7 +7,7 @@ This project aims to learn and model chaotic systems using Long Short-Term Memor
 ```
 chaos-lstm
 │── 📂 src
-│   ├── lorenz.py                # Generates Lorenz system data
+│   ├── lorenz.py                 # Generates Lorenz system data
 │   ├── data_preprocessing.py     # Prepares dataset for training
 │   ├── lstm_model.py             # Defines LSTM model
 │   ├── rnn_model.py              # Defines RNN model
@@ -17,9 +17,9 @@ chaos-lstm
 │── 📂 saved_models               # Auto-created: Stores trained models  
 │── 📂 results                    # Auto-created: Stores plots  
 │
-│── 📜 run_all.py                  # 💡 One script to run everything  
-│── 📜 requirements.txt             # Dependencies  
-│── 📜 README.md                    # Project documentation  
+│── 📜 run_all.py                 # 💡 One script to run everything  
+│── 📜 requirements.txt           # Dependencies  
+│── 📜 README.md                  # Project documentation  
 ```
 
 ## Requirements
