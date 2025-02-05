@@ -19,7 +19,7 @@ chaos-lstm
 │── 📂 results                    # Auto-created: Stores plots of predictions (currently only for LSTM)
 │── 📂 logs                       # Auto-created: Stores logs from script executions
 │
-│── 📜 run_all.py                 # 💡 One script to run everything (train and visualize)
+│── 📜 run_all.py                 # 💡 One script to run everything (generate, preprocess, train and visualize)
 │── 📜 requirements.txt           # Dependencies 
 │── 📜 README.md                  # Project documentation
 
