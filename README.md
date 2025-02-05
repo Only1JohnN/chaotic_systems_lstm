@@ -1,4 +1,4 @@
-# Chaos-LSTM
+# Chaotic Systems-LSTM
 
 This project aims to learn and model chaotic systems using Long Short-Term Memory (LSTM) networks, with a focus on the Lorenz system. The repository includes data generation, preprocessing, model definition, training, and evaluation.
 

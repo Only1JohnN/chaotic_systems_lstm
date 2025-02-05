@@ -34,19 +34,19 @@ os.makedirs("saved_models", exist_ok=True)
 print("\n📌 Training LSTM model...")
 lstm = build_lstm()
 lstm.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test))
-lstm.save("saved_models/lstm_model.keras")  # 🔹 Fix: Use .keras format
+lstm.save("saved_models/lstm_model.keras")
 
 # Train RNN
 print("\n📌 Training RNN model...")
 rnn = build_rnn()
 rnn.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test))
-rnn.save("saved_models/rnn_model.keras")  # 🔹 Fix: Use .keras format
+rnn.save("saved_models/rnn_model.keras")
 
 ### STEP 4: EVALUATE & VISUALIZE ###
 print("\n📌 Evaluating models...")
 os.makedirs("results", exist_ok=True)
 
-# 🔹 Fix: Ensure loss function is explicitly set when loading
+# Ensure loss function is explicitly set when loading
 custom_objects = {"mse": tf.keras.losses.MeanSquaredError()}
 
 # Load trained models
