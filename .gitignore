@@ -1,0 +1,7 @@
+# Virtual Environment
+venv/
+
+Auto-created Files
+data/
+results/
+saved_models/
